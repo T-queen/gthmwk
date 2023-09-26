@@ -18,63 +18,36 @@ function updateWeather(weatherData) {
     dayOfWeek + " " + currentDate.getHours() + ":" + currentDate.getMinutes();
   let tempElement = document.querySelector(".temperature");
   tempElement.textContent = Math.round(weatherData.main.temp);
-  let celsiusLink = document.querySelector("#celsius-link");
-  let fahrenheitLink = document.querySelector("#fahrenheit-link");
-  celsiusLink.addEventListener("click", function () {
-    tempElement.textContent = Math.round(weatherData.main.temp);
-  });
-  fahrenheitLink.addEventListener("click", function () {
-    let fahrenheitTemp = (weatherData.main.temp * 9) / 5 + 32;
-    tempElement.textContent = Math.round(fahrenheitTemp);
-  });
-  let humidityElement = document.createElement("li");
+  // let celsiusLink = document.querySelector("#celsius-link");
+  // let fahrenheitLink = document.querySelector("#fahrenheit-link");
+  // celsiusLink.addEventListener("click", function () {
+  //   tempElement.textContent = Math.round(weatherData.main.temp);
+  // });
+  // fahrenheitLink.addEventListener("click", function () {
+  //   let fahrenheitTemp = (weatherData.main.temp * 9) / 5 + 32;
+  //   tempElement.textContent = Math.round(fahrenheitTemp);
+  // });
+  let humidityElement = document.querySelector("#humidity");
   humidityElement.textContent = "Humidity: " + weatherData.main.humidity + "%";
-  let conditionElement = document.querySelector("#condition");
-  conditionElement.innerHTML = "";
-  conditionElement.appendChild(humidityElement);
 }
 
-function getWeatherData(latitude, longitude) {
-  let apiKey = "ab8e7ef210556986d1c9a75d6007b825"; // Replace with your OpenWeatherMap API key
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-  axios
-    .get(apiUrl)
-    .then(function (response) {
-      updateWeather(response.data);
-    })
-    .catch(function (error) {
-      alert("Error fetching weather data. Please try again.");
-    });
+function getWeatherData(city) {
+  const apiKey = "c1881888cde715cf04a69f2477b4c3c3"; // Replace with your OpenWeatherMap API key
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(function (response) {
+    updateWeather(response.data);
+  });
 }
 
-function handleButtonClicked() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        getWeatherData(latitude, longitude);
-      },
-      function (error) {
-        alert("Error getting current location. Please try again.");
-      }
-    );
-  } else {
-    alert("Geolocation is not supported by your browser.");
+function handleFormSubmit(event) {
+  event.preventDefault();
+  let searchInput = document.querySelector("#city-input");
+  let city = searchInput.value.toLowerCase();
+  if (city.trim() !== "") {
+    getWeatherData(city);
+    searchInput.value = "";
   }
 }
-
-let button = document.querySelector("#current-location-button");
-button.addEventListener("click", handleButtonClicked);
 
 let searchForm = document.querySelector(".search-form");
-searchForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-  let cityInput = document.querySelector("#city-input");
-  let city = cityInput.value.trim();
-  if (city !== "") {
-    getWeatherData(null, null); // Fetch weather data for current location
-    document.querySelector("h1").textContent = city;
-    cityInput.value = "";
-  }
-});
+searchForm.addEventListener("submit", handleFormSubmit);
