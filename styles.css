@@ -1,0 +1,48 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.shecodes-image {
+  width: 60%;
+  height: auto;
+}
+h1 {
+  color: rgb(135, 135, 135);
+  font-size: 24px;
+  font-weight: 100;
+}
+ul {
+  margin: 0 0 10px;
+  padding: 0;
+}
+li {
+  color: rgb(135, 135, 135);
+  font-size: 12px;
+  font-weight: 100;
+  list-style: none;
+}
+.weather-app {
+  border: 1px solid #dadde1;
+  padding: 15px;
+  margin: 20px auto;
+  max-width: 600px;
+  border-radius: 10px;
+}
+.weather-icon {
+  height: 54px;
+  width: 54px;
+}
+.TTb {
+  margin-top: 20px;
+}
+.rainy {
+  display: flex;
+  align-items: cen0pxter;
+}
+.temperature {
+  font-size: 44px;
+}
+.units {
+  position: relative;
+  top: -21px;
+}
